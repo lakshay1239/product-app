@@ -1,0 +1,32 @@
+[
+	{
+		"name":"Pen",
+		"category":"Stationery",
+		"price":100,
+		"quantity":2
+	},
+		{
+		"name":"Pencil",
+		"category":"Stationery",
+		"price":100,
+		"quantity":3
+	},
+	{
+		"name":"Cello Tape",
+		"category":"Stationery",
+		"price":150,
+		"quantity":5
+	},
+	{
+		"name":"Shoes",
+		"category":"Wearables",
+		"price":500,
+		"quantity":4
+	},
+	{
+		"name":"Watch",
+		"category":"Wearables",
+		"price":700,
+		"quantity":2
+	},
+]
