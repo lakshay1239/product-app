@@ -5,6 +5,7 @@ const cors = require('cors');
 // require('dotenv').config(); 
 
 const app = express();
+app.use(express.json())
 const PORT = 3000;
 // Use your connection string directly or from an environment variable
 const mongoDBURL = 'mongodb://localhost:27017/mongo1';
@@ -31,4 +32,9 @@ mongoose.connect(mongoDBURL, {
 //     res.send('Hello, Express with MongoDB!');
 // });
 const postsRouter = require('./routes/products');
+const loginRouter = require('./routes/login');
+const cartRouter = require('./routes/cart');
+
 app.use('/products', postsRouter); 
+app.use('/user', loginRouter); 
+app.use('/cart', cartRouter); 

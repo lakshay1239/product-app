@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Products = require('../models/Products'); // Import the Post model
+const CartItems = require('../models/Cart'); // Import the Post model
 const jwt = require('jsonwebtoken');
+const Cart = require('../models/Cart');
 
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -21,11 +22,12 @@ const authenticateToken = (req, res, next) => {
 };
 
 // Route to fetch all posts
-router.get('/', authenticateToken,async (req, res) => {
+router.post('/addItem', authenticateToken,async (req, res) => {
   try {
-    const productsStr = await Products.find({}); // Find all documents
-   
-    res.json(productsStr); // Send the data as a JSON response
+    const { product } = req.body;
+    await CartItems.insertOne(product);
+
+    res.json({}); // Send the data as a JSON response
   } catch (err) {
     console.error(err);
     res.status(500).send('Internal Server Error');
@@ -33,9 +35,9 @@ router.get('/', authenticateToken,async (req, res) => {
 });
 
 // Route to fetch a single post by ID
-router.get('/:id',authenticateToken, async (req, res) => {
+router.get('/',authenticateToken, async (req, res) => {
     try {
-        const productsStr = await Products.find({ name: req.params.id });
+        const productsStr = await Cart.find({ });
         if (!productsStr) return res.status(404).send('Post not found');
         
         res.json(productsStr);
