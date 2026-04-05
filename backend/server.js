@@ -1,8 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-// If using dotenv
-// require('dotenv').config(); 
+
 
 const app = express();
 app.use(express.json())
@@ -17,20 +16,17 @@ mongoose.connect(mongoDBURL, {
 })
 .then(() => {
     console.log('MongoDB connected successfully');
-    // Start the server after successful DB connection
+  
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     });
 })
 .catch((err) => {
     console.error('MongoDB connection error:', err);
-    process.exit(1); // Exit process on connection failure
+    process.exit(1); 
 });
 
-// Basic route (optional)
-// app.get('/', (req, res) => {
-//     res.send('Hello, Express with MongoDB!');
-// });
+
 const postsRouter = require('./routes/products');
 const loginRouter = require('./routes/login');
 const cartRouter = require('./routes/cart');

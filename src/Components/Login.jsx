@@ -17,9 +17,9 @@ function Login() {
     };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevents page reload
+    e.preventDefault(); 
     console.log('Logging in with:', formData);
-    // Add authentication logic here (e.g., API call)
+   
     try{
      const response = await axios.post('http://localhost:3000/user/login/', {
       email: formData.email,
@@ -34,7 +34,7 @@ function Login() {
       setErrMsg("Invalid credentials")
     }
     
-    // Success: Handle token or redirection
+  
    
   };
 

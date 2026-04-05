@@ -6,8 +6,6 @@ const app = express();
 app.use(express.json())
 
 router.post('/login', async (req, res) => {
-    // 1. Verify user credentials from DB...
-    // 2. If valid, create token:
     
     const { email, password } = req.body;
 
@@ -17,7 +15,7 @@ router.post('/login', async (req, res) => {
         const token = jwt.sign(
         { userId: users[0].email }, 
         'ahgjagjfggdjfh', 
-        { expiresIn: '2m' }
+        { expiresIn: '10m' }
          );
     
         return res.status(200).json({ 

@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import AlertDialog from '../Atoms/Dialog'
 import Pagination from '@mui/material/Pagination';
+import Alert from '@mui/material/Alert';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers=
 {
@@ -31,6 +32,7 @@ function Catalog() {
   const [alertMsg,setAlertMsg] = useState(false)
   const itemsPerPage=4
   const [page, setPage] = React.useState(1);
+  const [showSuccess,setShowSuccess] = useState(false)
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -61,13 +63,27 @@ function Catalog() {
   fetchData();
   },[])
 
-  const addItem=async (item)=>{
-    
-     const response = await axios.post('http://localhost:3000/cart/addItem/', {
-      product:item
-    });
-    if(response.status==403)
+  const addItem = async (item) => {
+    try {
+      const response = await axios.post('http://localhost:3000/cart/addItem/', {
+        product: item
+      },{
+      headers: { 'Authorization': `Bearer ${localStorage.getItem("token")}` }});
+      setShowSuccess(true)
+      setTimeout(() => setShowSuccess(false), 6000)
+    }
+    catch (e) {
+
+      const statusCode = e.response?.status;
+      console.error(`Error ${statusCode}: ${e.message}`);
+      if (statusCode == 403) {
         setShowAlert(true)
+        setAlertMsg("Session Timeout")
+      }
+     
+    }
+
+
   }
 
   const navigateToCart = () => {
@@ -101,10 +117,12 @@ function Catalog() {
         </Select>
         
       </FormControl>
-      <img src={cart} style={{    height: 30,
+      {showSuccess && <Alert severity="success" sx={{ right: 100,position:'fixed'}}>Item added to cart</Alert>}
+      {!showSuccess && <img src={cart} style={{    height: 30,
         alignSelf: "center",
         right: 100,
-        position: "absolute" }} onClick={()=>navigateToCart()}/>
+        position: "absolute" }} onClick={()=>navigateToCart()}/>}
+
     </Box>
     <Grid container spacing={2} >
      
