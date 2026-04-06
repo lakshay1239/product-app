@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const Users = require('../models/User');
+const userMessages = require('../Utils/util');
 const app = express();
-import { userMessages } from '../Utils/util'
+
 
 app.use(express.json())
 

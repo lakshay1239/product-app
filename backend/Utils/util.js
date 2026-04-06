@@ -1,4 +1,4 @@
-export const userMessages = {
+const userMessages = {
     invalidCred:"Invalid credentials",
     tokenKey:'ahgjagjfggdjfh',
     loginSuccess:"Login successful!",
@@ -7,3 +7,4 @@ export const userMessages = {
     serverError:'Internal Server Error',
     productNotFound:'Post not found'
 }
+module.exports = userMessages;

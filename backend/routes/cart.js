@@ -3,7 +3,7 @@ const router = express.Router();
 const CartItems = require('../models/Cart'); // Import the Post model
 const jwt = require('jsonwebtoken');
 const Cart = require('../models/Cart');
-const { userMessages } = require('../Utils/util');
+const userMessages  = require('../Utils/util');
 
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
