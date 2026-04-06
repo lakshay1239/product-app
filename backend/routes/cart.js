@@ -3,21 +3,22 @@ const router = express.Router();
 const CartItems = require('../models/Cart'); // Import the Post model
 const jwt = require('jsonwebtoken');
 const Cart = require('../models/Cart');
+const { userMessages } = require('../Utils/util');
 
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
 
     const token = authHeader && authHeader.split(' ')[1]; // Extract Bearer token
 
-    if (!token) return res.status(401).json({ message: "Access Denied" });
+    if (!token) return res.status(401).json({ message: userMessages.accessDeny });
 
     try {
-        const verified = jwt.verify(token, 'ahgjagjfggdjfh');
+        const verified = jwt.verify(token, userMessages.tokenKey);
         req.user = verified;
         next();
     } catch (err) {
         console.log(err)
-        res.status(403).json({ message: "Invalid Token" });
+        res.status(403).json({ message: userMessages.invalidToken });
     }
 };
 
@@ -30,7 +31,7 @@ router.post('/addItem', authenticateToken,async (req, res) => {
     res.json({}); // Send the data as a JSON response
   } catch (err) {
     console.error(err);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send(userMessages.serverError);
   }
 });
 
@@ -38,12 +39,12 @@ router.post('/addItem', authenticateToken,async (req, res) => {
 router.get('/',authenticateToken, async (req, res) => {
     try {
         const productsStr = await Cart.find({ });
-        if (!productsStr) return res.status(404).send('Post not found');
+        if (!productsStr) return res.status(404).send(userMessages.productNotFound);
         
         res.json(productsStr);
     } catch (err) {
         console.error(err);
-        res.status(500).send('Internal Server Error');
+        res.status(500).send(userMessages.serverError);
     }
 });
 

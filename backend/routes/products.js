@@ -8,15 +8,15 @@ const authenticateToken = (req, res, next) => {
 
     const token = authHeader && authHeader.split(' ')[1]; // Extract Bearer token
 
-    if (!token) return res.status(401).json({ message: "Access Denied" });
+    if (!token) return res.status(401).json({ message: userMessages.accessDeny});
 
     try {
-        const verified = jwt.verify(token, 'ahgjagjfggdjfh');
+        const verified = jwt.verify(token, userMessages.tokenKey);
         req.user = verified;
         next();
     } catch (err) {
         console.log(err)
-        res.status(403).json({ message: "Invalid Token" });
+        res.status(403).json({ message: userMessages.invalidToken });
     }
 };
 
@@ -28,7 +28,7 @@ router.get('/', authenticateToken,async (req, res) => {
     res.json(productsStr); // Send the data as a JSON response
   } catch (err) {
     console.error(err);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send(userMessages.serverError);
   }
 });
 
@@ -36,12 +36,12 @@ router.get('/', authenticateToken,async (req, res) => {
 router.get('/:id',authenticateToken, async (req, res) => {
     try {
         const productsStr = await Products.find({ name: req.params.id });
-        if (!productsStr) return res.status(404).send('Post not found');
+        if (!productsStr) return res.status(404).send(userMessages.productNotFound);
         
         res.json(productsStr);
     } catch (err) {
         console.error(err);
-        res.status(500).send('Internal Server Error');
+        res.status(500).send(userMessages.serverError);
     }
 });
 
