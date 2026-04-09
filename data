@@ -1,11 +1,41 @@
 [
 	{
+		"name":"Renolds Pen",
+		"category":"Stationery",
+		"price":100,
+		"quantity":2
+	},
+	{
 		"name":"Pen",
 		"category":"Stationery",
 		"price":100,
 		"quantity":2
 	},
-		{
+	{
+		"name":"Scale",
+		"category":"Stationery",
+		"price":20,
+		"quantity":2
+	},
+	{
+		"name":"Geometry",
+		"category":"Stationery",
+		"price":300,
+		"quantity":2
+	},
+	{
+		"name":"Compass",
+		"category":"Stationery",
+		"price":50,
+		"quantity":2
+	},
+	{
+		"name":"Scissor",
+		"category":"Stationery",
+		"price":100,
+		"quantity":2
+	},
+	{
 		"name":"Pencil",
 		"category":"Stationery",
 		"price":100,
