@@ -27,6 +27,7 @@ function Catalog() {
   const [categories, setCategories] = useState([])
   const [category,setCategory] = useState('')
   const [data,setData]=useState([])
+  const [pageData,setPageData]=useState([])
   const navigate = useNavigate();
   const [showAlert,setShowAlert] = useState(false)
   const [alertMsg,setAlertMsg] = useState(false)
@@ -36,6 +37,7 @@ function Catalog() {
 
   const handleChange = (event, value) => {
     setPage(value);
+    getPageDataForCategory(category,value)
   };
 
   useEffect( ()=>{
@@ -59,6 +61,7 @@ function Catalog() {
         categories.push(product.category)
     });
     setCategories(categories);
+
   }
   fetchData();
   },[])
@@ -95,6 +98,18 @@ function Catalog() {
     return items.slice(start, start + pageSize);
   };
 
+  const getPageDataForCategory =async (category,pageNumber)=> {
+
+    const resp=await fetch('http://localhost:3000/products/'+category+'/'+pageNumber,{headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }})
+    
+    // const products=JSON.parse(resp);
+    const data = await resp.json();
+    setPageData(data)
+
+  }
+
 // getPage(items, 2, 10) returns the 11th through 20th items.
 
 
@@ -108,7 +123,7 @@ function Catalog() {
           id="demo-simple-select"
           value={category}
           label="Category"
-          onChange={e=>setCategory(e.target.value)}
+          onChange={e=>{setCategory(e.target.value);getPageDataForCategory(e.target.value,1);setPage(1)}}
         >
           {categories.map(category=>
             <MenuItem value={category}>{category}</MenuItem>
@@ -126,7 +141,7 @@ function Catalog() {
     </Box>
     <Grid container spacing={2} >
      
-      {getPage(data.filter(element=>element.category===category),page,itemsPerPage).map(product =>{
+      { pageData.map(product =>{
         if(product.category==category){
           return (
             <Grid size={{ xs: 12, sm:6,md: 4 }}>

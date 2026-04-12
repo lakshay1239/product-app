@@ -46,4 +46,17 @@ router.get('/:id',authenticateToken, async (req, res) => {
     }
 });
 
+router.get('/:cat/:page', authenticateToken,async (req, res) => {
+  try {
+    const productsStr = await Products.find({category:req.params.cat})
+                                .skip((req.params.page-1)*4).limit(4); // Find all documents
+   
+    res.json(productsStr); // Send the data as a JSON response
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(userMessages.serverError);
+  }
+});
+
+
 module.exports = router;
